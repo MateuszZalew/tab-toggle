@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import JobInfo from "./JobInfo";
+import BtnContainer from "./BtnContainer";
 
 const url = "https://course-api.com/react-tabs-project";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [tabs, setTabs] = useState(null);
+  const [currentTab, setCurrentTab] = useState(0);
 
   const fetchData = async () => {
     try {
@@ -25,6 +27,10 @@ const App = () => {
     fetchData();
   }, []);
 
+  const changeTab = (id) => {
+    setCurrentTab(id);
+  };
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -32,10 +38,12 @@ const App = () => {
   return (
     <main>
       <section className="jobs-center">
-        <article className="btn-container">
-          <div className="job-btn">First job</div>
-        </article>
-        <JobInfo {...tabs[0]} />
+        <BtnContainer
+          tabs={tabs}
+          currentTab={currentTab}
+          changeTab={changeTab}
+        />
+        <JobInfo {...tabs[currentTab]} />
       </section>
     </main>
   );
